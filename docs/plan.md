@@ -45,10 +45,13 @@
 - [x] **Task 1.2:** Define `auth.proto` (User, Login, Signup, ErrorDetails).
 - [x] **Task 1.3:** **Backend Init:** Initialize Go module and add dependencies (gRPC, PostgreSQL, Redis, JWT, Zap).
 - [x] **Task 1.4:** **Proto Generation:** Create Makefile for generating Go code from proto files.
-- [ ] **Task 1.5:** **Frontend Build:** Configure `build.yaml` and `protoc` generation scripts for Dart.
-- [x] **Task 1.6:** **Containerization:** Create multi-stage `Dockerfile` for Go backend and `envoy.yaml` for gRPC-Web.
-- [x] **Task 1.7:** **Orchestration:** Create `docker-compose.yaml` (Go App + Postgres + Redis + Envoy).
-- [x] **Task 1.8:** **Configuration:** Create `.env.example` and config loader in Go.
+- [x] **Task 1.5:** **Makefile Enhancement:** Configure Makefile to source `.env` for all database operations.
+- [x] **Task 1.6:** **Development Tools:** Add `install-tools` target with compatible versions (migrate, golangci-lint, air).
+- [x] **Task 1.7:** **Build Automation:** Integrate migrations into `make build` process.
+- [ ] **Task 1.8:** **Frontend Build:** Configure `build.yaml` and `protoc` generation scripts for Dart.
+- [x] **Task 1.9:** **Containerization:** Create multi-stage `Dockerfile` for Go backend and `envoy.yaml` for gRPC-Web.
+- [x] **Task 1.10:** **Orchestration:** Create `docker-compose.yaml` (Go App + Postgres + Redis + Envoy).
+- [x] **Task 1.11:** **Configuration:** Create `.env.example` and config loader in Go.
 
 ### Epic 2: The Data Layer (Postgres & Redis)
 

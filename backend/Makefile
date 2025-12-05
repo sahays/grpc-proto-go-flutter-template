@@ -6,6 +6,15 @@ PROTO_OUT_DIR=./proto
 GO_BIN=$(shell which go)
 DOCKER_COMPOSE=docker-compose
 
+# Load environment variables from .env file
+ifneq (,$(wildcard ./.env))
+    include .env
+    export
+endif
+
+# Database connection string for migrations
+DB_DSN=postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):$(DB_PORT)/$(DB_NAME)?sslmode=$(DB_SSL_MODE)
+
 help: ## Display this help message
 	@echo "Available targets:"
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-20s\033[0m %s\n", $$1, $$2}'
@@ -22,7 +31,7 @@ tidy: ## Run go mod tidy
 	@echo "Running go mod tidy..."
 	$(GO_BIN) mod tidy
 
-build: proto tidy ## Build the Go application
+build: proto tidy migrate-up ## Build the Go application
 	@echo "Building application..."
 	$(GO_BIN) build -o bin/server ./cmd/server
 	@echo "Build complete! Binary at ./bin/server"
@@ -71,12 +80,14 @@ docker-logs: ## View docker-compose logs
 
 migrate-up: ## Run database migrations up
 	@echo "Running migrations up..."
-	migrate -path ./migrations -database "postgresql://postgres:postgres@localhost:5432/saas_db?sslmode=disable" up
+	@if [ -z "$(DB_DSN)" ]; then echo "Error: Database configuration not loaded from .env"; exit 1; fi
+	migrate -path ./migrations -database "$(DB_DSN)" up
 	@echo "Migrations complete!"
 
 migrate-down: ## Rollback database migrations
 	@echo "Rolling back migrations..."
-	migrate -path ./migrations -database "postgresql://postgres:postgres@localhost:5432/saas_db?sslmode=disable" down
+	@if [ -z "$(DB_DSN)" ]; then echo "Error: Database configuration not loaded from .env"; exit 1; fi
+	migrate -path ./migrations -database "$(DB_DSN)" down
 	@echo "Rollback complete!"
 
 migrate-create: ## Create a new migration file (usage: make migrate-create NAME=migration_name)
@@ -90,7 +101,10 @@ dev: ## Run in development mode with hot reload (requires air)
 
 install-tools: ## Install development tools
 	@echo "Installing development tools..."
-	go install github.com/cosmtrek/air@latest
-	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	@echo "Installing migrate..."
 	go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+	@echo "Installing golangci-lint..."
+	go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+	@echo "Installing air..."
+	go install github.com/air-verse/air@latest
 	@echo "Tools installed!"
