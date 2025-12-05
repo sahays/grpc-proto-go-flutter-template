@@ -11,7 +11,9 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/sahays/grpc-proto-go-flutter-template/internal/cache"
 	"github.com/sahays/grpc-proto-go-flutter-template/internal/config"
+	"github.com/sahays/grpc-proto-go-flutter-template/internal/db"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -23,26 +25,55 @@ var (
 func main() {
 	flag.Parse()
 
-	// Health check mode (for Docker HEALTHCHECK)
-	if *healthCheck {
-		if err := performHealthCheck(); err != nil {
-			log.Fatalf("Health check failed: %v", err)
-		}
-		fmt.Println("Health check passed")
-		os.Exit(0)
-	}
-
 	// Load configuration
 	cfg, err := config.Load()
 	if err != nil {
 		log.Fatalf("Failed to load configuration: %v", err)
 	}
 
+	// Health check mode (for Docker HEALTHCHECK)
+	if *healthCheck {
+		if err := performHealthCheck(cfg); err != nil {
+			log.Fatalf("Health check failed: %v", err)
+		}
+		fmt.Println("Health check passed")
+		os.Exit(0)
+	}
+
+	// Initialize database
+	database, err := db.New(cfg)
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+	defer database.Close()
+	log.Println("Connected to PostgreSQL")
+
+	// Initialize Redis cache
+	redisCache, err := cache.New(cfg)
+	if err != nil {
+		log.Fatalf("Failed to connect to Redis: %v", err)
+	}
+	defer redisCache.Close()
+	log.Println("Connected to Redis")
+
+	// Check database migrations
+	ctx := context.Background()
+	if err := database.RunMigrations(ctx); err != nil {
+		log.Printf("Warning: Migration check failed: %v", err)
+	}
+
+	// Print database stats
+	stats := database.Stats()
+	log.Printf("Database pool: OpenConnections=%d, InUse=%d, Idle=%d",
+		stats.OpenConnections, stats.InUse, stats.Idle)
+
 	// Create gRPC server
 	grpcServer := grpc.NewServer()
 
 	// TODO: Register services here (Epic 3)
-	// auth.RegisterAuthServiceServer(grpcServer, authService)
+	// userRepo := models.NewUserRepository(database.DB)
+	// authService := auth.NewAuthService(cfg, userRepo, redisCache)
+	// pb.RegisterAuthServiceServer(grpcServer, authService)
 
 	// Enable reflection for grpcurl
 	reflection.Register(grpcServer)
@@ -89,9 +120,31 @@ func main() {
 	}
 }
 
-func performHealthCheck() error {
-	// TODO: Add proper health checks (database, redis connectivity)
-	// For now, just return success
-	time.Sleep(100 * time.Millisecond)
+func performHealthCheck(cfg *config.Config) error {
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// Check database connectivity
+	database, err := db.New(cfg)
+	if err != nil {
+		return fmt.Errorf("database connection failed: %w", err)
+	}
+	defer database.Close()
+
+	if err := database.Health(ctx); err != nil {
+		return fmt.Errorf("database health check failed: %w", err)
+	}
+
+	// Check Redis connectivity
+	redisCache, err := cache.New(cfg)
+	if err != nil {
+		return fmt.Errorf("redis connection failed: %w", err)
+	}
+	defer redisCache.Close()
+
+	if err := redisCache.Health(ctx); err != nil {
+		return fmt.Errorf("redis health check failed: %w", err)
+	}
+
 	return nil
 }
