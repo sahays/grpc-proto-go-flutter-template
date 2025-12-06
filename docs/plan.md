@@ -100,12 +100,12 @@
 
 **Goal:** A strongly-typed, modern web client.
 
-- [ ] **Task 4.1:** **Architecture:** Setup `core` folder (DI, Network, Theme, Router).
-- [ ] **Task 4.2:** **gRPC Client:** Implement `GrpcClientModule` with `AuthInterceptor` (attaches JWT).
-- [ ] **Task 4.3:** **State Management:** `AuthBloc` (Unauthenticated -> Authenticated -> SessionExpired).
-- [ ] **Task 4.4:** **Forms:** Create `LoginForm` and `RegisterForm` using `formz` (Strict validation logic shared with
+- [x] **Task 4.1:** **Architecture:** Setup `core` folder (DI, Network, Theme, Router).
+- [x] **Task 4.2:** **gRPC Client:** Implement `GrpcClientModule` with `AuthInterceptor` (attaches JWT).
+- [x] **Task 4.3:** **State Management:** `AuthBloc` (Unauthenticated -> Authenticated -> SessionExpired).
+- [x] **Task 4.4:** **Forms:** Create `LoginForm` and `RegisterForm` using `formz` (Strict validation logic shared with
       UI).
-- [ ] **Task 4.5:** **UI:** Responsive Login/Signup screens (Mobile-first, Dark/Light mode support).
+- [x] **Task 4.5:** **UI:** Responsive Login/Signup screens (Mobile-first, Dark/Light mode support).
 
 ### Epic 5: The Dashboard (SaaS Shell)
 
