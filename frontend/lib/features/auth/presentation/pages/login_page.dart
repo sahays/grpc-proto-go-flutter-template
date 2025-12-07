@@ -81,7 +81,7 @@ class _LoginViewState extends State<_LoginView> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Welcome ${state.user.fullName}!')),
             );
-            // TODO: Navigate to dashboard
+            context.go('/dashboard/overview');
           } else if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

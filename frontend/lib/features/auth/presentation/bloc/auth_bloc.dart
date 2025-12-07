@@ -4,7 +4,7 @@ import 'package:flutter_web_app/features/auth/domain/repositories/auth_repositor
 import 'auth_event.dart';
 import 'auth_state.dart';
 
-@injectable
+@singleton
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
 

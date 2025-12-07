@@ -107,7 +107,7 @@
       UI).
 - [x] **Task 4.5:** **UI:** Responsive Login/Signup screens (Mobile-first, Dark/Light mode support).
 - [x] **Task 4.6:** **Forgot Password Flow:** Implement forgot password with reset token (logged instead of emailed).
-- [ ] **Task 4.7:** **Enhanced Auth UI:** Modern redesign inspired by Figma samples (login-figma-inspire.jpg)
+- [x] **Task 4.7:** **Enhanced Auth UI:** Modern redesign inspired by Figma samples (login-figma-inspire.jpg)
 
   **Layout Patterns:**
   - Split-screen design: Hero image/illustration left (60%), form right (40%) for desktop
