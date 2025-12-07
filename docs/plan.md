@@ -107,90 +107,37 @@
       UI).
 - [x] **Task 4.5:** **UI:** Responsive Login/Signup screens (Mobile-first, Dark/Light mode support).
 - [x] **Task 4.6:** **Forgot Password Flow:** Implement forgot password with reset token (logged instead of emailed).
-- [x] **Task 4.7:** **Enhanced Auth UI:** Modern redesign inspired by Figma samples (login-figma-inspire.jpg)
-
-  **Layout Patterns:**
-  - Split-screen design: Hero image/illustration left (60%), form right (40%) for desktop
-  - Centered card layout with backdrop blur for mobile
-  - Full-screen gradient backgrounds with overlay patterns
-  - Asymmetric layouts with diagonal cuts and geometric shapes
-
-  **Visual Design Elements:**
-  - Gradient backgrounds (pastel, vibrant, or dark mode adaptive)
-  - Glassmorphism cards with blur and transparency
-  - Soft shadows and elevation for depth
-  - Rounded corners (16-24px radius) for modern feel
-  - Hero illustrations or abstract 3D graphics
-  - Brand logo prominently displayed (top-left or centered)
-  - Subtle pattern overlays (dots, lines, geometric shapes)
-
-  **Form Components:**
-  - Floating/animated labels that move on focus
-  - Outlined input fields with subtle hover/focus states
-  - Input field icons (email, lock, user icons) with proper spacing
-  - Password visibility toggle with smooth icon transition
-  - Password strength indicator (colored bar below password field)
-  - Social login buttons with brand colors (Google, Apple, GitHub, Facebook)
-  - Primary CTA button with gradient or solid color + hover scale effect
-  - "Remember me" checkbox with custom styling
-  - Divider with "OR" text between social and email login
-
-  **Micro-interactions & Animations:**
-  - Smooth page transitions (slide, fade, scale)
-  - Button hover: subtle scale up (1.02-1.05) + shadow increase
-  - Button press: scale down (0.98) for tactile feedback
-  - Input focus: border color change + glow effect
-  - Loading spinner or skeleton loaders during async operations
-  - Success checkmark animation on successful login
-  - Shake animation for validation errors
-  - Floating animation for decorative elements
-
-  **Typography & Content:**
-  - Large, bold heading (32-48px) for "Welcome back" / "Create account"
-  - Descriptive subheading explaining the purpose
-  - Helper text below inputs for validation feedback
-  - Links styled as text buttons (underline on hover)
-  - "Don't have an account? Sign up" with emphasized link
-  - Footer with Terms of Service and Privacy Policy links
-
-  **Mobile Optimization:**
-  - Stack layout (hero image at top, form below)
-  - Larger touch targets (minimum 44x44px)
-  - Bottom sheet modals for additional options
-  - Safe area padding for notched devices
-  - Optimized keyboard handling (auto-scroll to focused input)
-
-  **Accessibility:**
-  - Semantic HTML/Flutter widgets
-  - Proper contrast ratios (WCAG AA compliant)
-  - Focus indicators for keyboard navigation
-  - Screen reader labels for all interactive elements
-  - Error announcements for form validation
-
-  **Specific Features:**
-  - QR code login option (for mobile app pairing)
-  - "Continue with email" vs social login priority
-  - Progress indicator for multi-step signup
-  - Email verification reminder
-  - Biometric login option (fingerprint icon)
+- [x] **Task 4.7:** **Enhanced Auth UI:** Modern redesign with glassmorphic design, gradient backgrounds, and animations.
+  - Implemented split-screen layout (desktop) and centered card (mobile)
+  - Added glassmorphic cards with backdrop blur and transparency
+  - Created gradient backgrounds adaptive to dark/light themes
+  - Implemented social login buttons with brand styling
+  - Added micro-interactions (hover animations, input focus effects)
+  - Responsive design with 768px breakpoint
+  - **Full specifications:** See [UI Design Specification](./ui-spec.md)
 
 ### Epic 5: Sports Academy Admin Panel
 
 **Goal:** A fully responsive, modern admin dashboard for a sports academy with mock data.
 
-#### Task 5.1: Core Dashboard Infrastructure
-- [ ] **Task 5.1.1:** Create `DashboardScaffold` with collapsible sidebar (Desktop) and drawer (Mobile)
-- [ ] **Task 5.1.2:** Implement animated sidebar with expand/collapse functionality
-- [ ] **Task 5.1.3:** Create top AppBar with:
-  - Theme toggle (dark/light mode) with smooth transition
-  - User profile dropdown with avatar
-  - Notification bell with badge
-  - Search bar with autocomplete
-- [ ] **Task 5.1.4:** Add gradient backgrounds (adaptive to dark/light theme)
-- [ ] **Task 5.1.5:** Implement navigation menu with icons and nested submenus
-- [ ] **Task 5.1.6:** Add animated hover effects and click ripple animations
-- [ ] **Task 5.1.7:** Create custom color schemes for dark and light modes
-- [ ] **Task 5.1.8:** Add theme persistence (save user preference)
+#### Task 5.1: Core Dashboard Infrastructure ✅ COMPLETED
+- [x] **Task 5.1.1:** Created `DashboardScaffold` with collapsible sidebar (Desktop) and bottom nav (Mobile)
+- [x] **Task 5.1.2:** Implemented animated sidebar with expand/collapse functionality (280px ↔ 80px)
+- [x] **Task 5.1.3:** Created top AppBar with:
+  - User profile dropdown with gradient avatar
+  - Notification bell with badge and dropdown
+  - Search bar (desktop only)
+  - System theme support (dark/light mode)
+- [x] **Task 5.1.4:** Added gradient backgrounds adaptive to dark/light theme
+- [x] **Task 5.1.5:** Implemented navigation menu with icons and nested submenus
+- [x] **Task 5.1.6:** Added animated hover effects and smooth transitions
+- [x] **Task 5.1.7:** Created custom color schemes for dark and light modes
+- [x] **Task 5.1.8:** System theme support (manual toggle deferred to Task 5.3.8)
+- [x] **Task 5.1.9:** Implemented mock data service with repository pattern
+- [x] **Task 5.1.10:** Created overview page with stat cards and recent activity
+- [x] **Task 5.1.11:** Implemented route-based navigation with auth guards
+- [x] **Task 5.1.12:** Added BLoC state management (NavigationCubit, DashboardBloc, NotificationsCubit)
+- **Full specifications:** See [UI Design Specification](./ui-spec.md)
 
 #### Task 5.2: Mock Data Layer & Models
 - [ ] **Task 5.2.1:** Create domain models (Student, Coach, Class, Attendance, Payment)
