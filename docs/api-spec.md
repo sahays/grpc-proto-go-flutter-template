@@ -2,7 +2,8 @@
 
 ## Overview
 
-This document defines the API architecture, backend patterns, and technical decisions for the Go gRPC backend. It covers Protocol Buffers, service design, security implementations, database patterns, and operational practices.
+This document defines the API architecture, backend patterns, and technical decisions for the Go gRPC backend. It covers
+Protocol Buffers, service design, security implementations, database patterns, and operational practices.
 
 ---
 
@@ -51,11 +52,13 @@ option java_outer_classname = "AuthProto";
 ### Design Principles
 
 1. **Contract-First Development:**
+
    - All API changes start with proto definitions
    - Breaking changes require new service versions
    - Backwards compatibility maintained via field numbering
 
 2. **Field Numbering Convention:**
+
    - Core fields: 1-15 (single-byte encoding)
    - Extended fields: 16+ (two-byte encoding)
    - Reserved fields documented in comments
@@ -91,6 +94,7 @@ message User {
 ```
 
 **Design Notes:**
+
 - Password hash NEVER exposed in User message
 - Timestamps handled server-side (not in proto)
 - Additional profile fields added as optional (16+)
@@ -186,6 +190,7 @@ protoc --go_out=./proto --go_opt=paths=source_relative \
 ```
 
 **Generated Files:**
+
 - `auth.pb.go` - Message definitions and serialization
 - `auth_grpc.pb.go` - Service interfaces and client/server stubs
 
@@ -246,12 +251,14 @@ backend/
 ### Package Organization Principles
 
 1. **internal/** - Private application code
+
    - `auth/` - Domain-specific business logic
    - `middleware/` - Cross-cutting concerns (logging, auth)
    - `models/` - Domain entities and repositories
    - `config/` - Configuration loading and validation
 
 2. **pkg/** - Reusable packages
+
    - Can be imported by external projects
    - No business logic dependencies
    - Generic utilities (JWT, password, logger)
@@ -439,6 +446,7 @@ type Claims struct {
 ```
 
 **RegisteredClaims:**
+
 - `iss` - Issuer (configured in JWT.Issuer)
 - `sub` - Subject (user ID)
 - `exp` - Expiration time (15 minutes default)
@@ -625,6 +633,7 @@ func (s *Service) Verify(password, encodedHash string) (bool, error) {
 ```
 
 **Security Parameters:**
+
 - **Memory:** 64MB (65536 KB) - Resistant to GPU attacks
 - **Iterations:** 3 - Balance between security and performance
 - **Parallelism:** 2 - Utilizes multiple CPU cores
@@ -940,6 +949,7 @@ migrations/
 ```
 
 **Best Practices:**
+
 - Always provide `.up.sql` and `.down.sql`
 - Test rollbacks before production
 - Use transactions for multi-statement migrations
@@ -1011,16 +1021,19 @@ func (c *Cache) Exists(ctx context.Context, key string) (bool, error) {
 ### Use Cases
 
 1. **Refresh Tokens:**
+
    - Key: `refresh_token:{token_id}`
    - Value: `{user_id}`
    - TTL: 7 days
 
 2. **Password Reset Tokens:**
+
    - Key: `reset_token:{token}`
    - Value: `{user_id}`
    - TTL: 1 hour
 
 3. **Rate Limiting Counters:**
+
    - Key: `rate_limit:{ip}:{endpoint}`
    - Value: request count
    - TTL: 1 minute (window)
@@ -1122,6 +1135,7 @@ func (s *Service) SignUp(ctx context.Context, req *pb.SignUpRequest) (*pb.SignUp
 ```
 
 **gRPC Status Codes Used:**
+
 - `codes.OK` - Success
 - `codes.InvalidArgument` - Validation failures
 - `codes.Unauthenticated` - Invalid credentials, expired tokens
@@ -1218,7 +1232,7 @@ CMD ["./server"]
 ### Docker Compose
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
@@ -1337,20 +1351,24 @@ func (s *Server) Ready(ctx context.Context) error {
 ### Planned Security Features
 
 1. **Rate Limiting**
+
    - Library: ulule/limiter/v3
    - Redis-based token bucket algorithm
    - Per-IP and per-user limits
 
 2. **Bot Detection**
+
    - User agent parsing (mssola/user_agent)
    - IP reputation tracking
    - Request pattern analysis
 
 3. **Input Validation**
+
    - go-playground/validator/v10
    - Custom validators for business rules
 
 4. **Metrics & Monitoring**
+
    - Prometheus metrics
    - Request duration histograms
    - Error rate counters
@@ -1366,6 +1384,7 @@ func (s *Server) Ready(ctx context.Context) error {
 ### Error Handling
 
 1. **Never expose internal errors:**
+
    ```go
    // Bad
    return nil, status.Error(codes.Internal, err.Error())
@@ -1376,6 +1395,7 @@ func (s *Server) Ready(ctx context.Context) error {
    ```
 
 2. **Use appropriate status codes:**
+
    - User input errors → `InvalidArgument`
    - Auth failures → `Unauthenticated`
    - Not found → `NotFound`
@@ -1391,16 +1411,19 @@ func (s *Server) Ready(ctx context.Context) error {
 ### Security Principles
 
 1. **Never log sensitive data:**
+
    - Passwords, tokens, API keys
    - Personal information (PII)
 
 2. **Use parameterized queries:**
+
    ```go
    // Always use placeholders
    query := "SELECT * FROM users WHERE email = $1"
    ```
 
 3. **Validate all inputs:**
+
    - Email format
    - Password strength
    - String lengths
@@ -1415,14 +1438,17 @@ func (s *Server) Ready(ctx context.Context) error {
 ### Performance Optimization
 
 1. **Connection pooling:**
+
    - Database: 25 max open, 10 idle
    - Redis: Pool size 10
 
 2. **Index database queries:**
+
    - Email lookups (login)
    - Created_at (sorting)
 
 3. **Cache frequently accessed data:**
+
    - User sessions
    - Configuration
 
@@ -1490,16 +1516,9 @@ func TestSignUpFlow(t *testing.T) {
 
 This API specification defines a production-ready gRPC backend with:
 
-✅ Contract-first development with Protocol Buffers
-✅ Secure authentication with JWT + Argon2id
-✅ Clean architecture with repository pattern
-✅ Comprehensive configuration management
-✅ Database migrations and connection pooling
-✅ Redis caching for sessions and tokens
-✅ Structured logging with Zap
-✅ gRPC middleware for logging and tracing
-✅ Docker containerization and orchestration
-✅ Make-based build automation
-✅ Health checks and graceful shutdown
+✅ Contract-first development with Protocol Buffers ✅ Secure authentication with JWT + Argon2id ✅ Clean architecture
+with repository pattern ✅ Comprehensive configuration management ✅ Database migrations and connection pooling ✅ Redis
+caching for sessions and tokens ✅ Structured logging with Zap ✅ gRPC middleware for logging and tracing ✅ Docker
+containerization and orchestration ✅ Make-based build automation ✅ Health checks and graceful shutdown
 
 All implementations follow Go best practices and production security standards.

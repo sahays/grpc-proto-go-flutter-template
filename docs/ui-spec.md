@@ -1,7 +1,10 @@
 # UI Design Specification
 
 ## Overview
-This document defines the UI/UX patterns, design system, and component specifications for the Flutter web application. The design follows modern web application standards with a focus on responsiveness, accessibility, and delightful user interactions.
+
+This document defines the UI/UX patterns, design system, and component specifications for the Flutter web application.
+The design follows modern web application standards with a focus on responsiveness, accessibility, and delightful user
+interactions.
 
 ---
 
@@ -10,6 +13,7 @@ This document defines the UI/UX patterns, design system, and component specifica
 ### Color Palette
 
 #### Primary Colors
+
 ```dart
 // Purple-Blue Gradient Theme
 static const primaryPurple = Color(0xFF6366F1);  // Indigo
@@ -27,6 +31,7 @@ static const lightSurface = Color(0xFFFFFFFF);    // White
 ```
 
 #### Gradients
+
 ```dart
 // Primary Gradient (Purple → Blue)
 static const primaryGradient = LinearGradient(
@@ -68,10 +73,12 @@ static const darkBackgroundGradient = LinearGradient(
 ### Typography
 
 #### Font Family
+
 - **Primary Font:** Google Fonts - Inter (clean, modern sans-serif)
 - **Fallback:** System default
 
 #### Type Scale
+
 ```dart
 // Headlines
 headlineLarge: 48px, weight: 700  // Hero titles
@@ -90,6 +97,7 @@ labelSmall: 12px, weight: 500     // Captions
 ```
 
 ### Spacing System
+
 ```dart
 // Base spacing unit: 4px
 static const spacing = {
@@ -104,6 +112,7 @@ static const spacing = {
 ```
 
 ### Border Radius
+
 ```dart
 static const borderRadius = {
   'sm': 8.0,     // Buttons, inputs
@@ -116,6 +125,7 @@ static const borderRadius = {
 ```
 
 ### Shadows & Elevation
+
 ```dart
 // Soft shadows for cards and elevated elements
 static final softShadow = [
@@ -148,9 +158,11 @@ static final largeShadow = [
 ## Component Specifications
 
 ### 1. Glassmorphic Card
+
 **Purpose:** Container with frosted glass effect for modern UI
 
 **Properties:**
+
 - Background: Semi-transparent white (light) or dark (dark mode)
 - Backdrop filter: Blur(10px)
 - Border: 1px solid with opacity 0.2
@@ -158,6 +170,7 @@ static final largeShadow = [
 - Padding: 20-24px
 
 **Implementation:**
+
 ```dart
 class GlassmorphicCard extends StatelessWidget {
   final Widget child;
@@ -178,22 +191,27 @@ class GlassmorphicCard extends StatelessWidget {
 ```
 
 ### 2. Gradient Background
+
 **Purpose:** Full-screen animated gradient background
 
 **Properties:**
+
 - Adaptive to dark/light theme
 - 3-color gradient with diagonal direction
 - Optional animated floating orbs overlay
 - Child widget rendered on top
 
 **Variants:**
+
 - Light mode: Soft pastels (indigo, pink, blue)
 - Dark mode: Deep blues and purples
 
 ### 3. Animated Gradient Button
+
 **Purpose:** Primary CTA button with gradient and animations
 
 **Properties:**
+
 - Gradient background (primaryGradient)
 - Height: 56px
 - Border radius: 12px
@@ -202,11 +220,13 @@ class GlassmorphicCard extends StatelessWidget {
 - Disabled state (opacity 0.5)
 
 **Animations:**
+
 - Hover: Scale 1.0 → 1.02, shadow increase
 - Press: Scale 1.0 → 0.98
 - Transition: 200ms ease-in-out
 
 **States:**
+
 - Default
 - Hover
 - Pressed
@@ -214,15 +234,18 @@ class GlassmorphicCard extends StatelessWidget {
 - Disabled
 
 ### 4. Stat Card
+
 **Purpose:** Display key metrics with visual appeal
 
 **Properties:**
+
 - GlassmorphicCard background
 - Gradient icon container (circular)
 - Title, value, optional trend indicator
 - Hover animation: Scale 1.0 → 1.02
 
 **Layout:**
+
 ```
 ┌─────────────────────────┐
 │ [Icon]  Title           │
@@ -232,15 +255,18 @@ class GlassmorphicCard extends StatelessWidget {
 ```
 
 **Example:**
+
 - Icon: People icon with gradient background
 - Title: "Total Students"
 - Value: "247"
 - Trend: +12.5% (green)
 
 ### 5. Navigation Menu Item
+
 **Purpose:** Sidebar/menu navigation item with active state
 
 **Properties:**
+
 - Icon + label layout
 - Active state: Gradient background
 - Hover state: Subtle background color
@@ -248,42 +274,51 @@ class GlassmorphicCard extends StatelessWidget {
 - Nested items: Indented 16px
 
 **Animations:**
+
 - Hover: Background fade-in (200ms)
 - Click: Ripple effect
 - Active: Gradient fade-in (300ms)
 
 **States:**
+
 - Default: Transparent background, gray icon/text
 - Hover: Light background, icon/text brightens
 - Active: Gradient background, white icon/text
 
 ### 6. Dashboard App Bar
+
 **Purpose:** Top navigation bar for dashboard
 
 **Properties:**
+
 - Height: 70px
 - GlassmorphicCard background
 - Gradient border bottom (1px)
 
 **Desktop Layout:**
+
 ```
 [Dashboard Title] [Search Bar] [Spacer] [Notifications] [Profile]
 ```
 
 **Mobile Layout:**
+
 ```
 [Logo] [Spacer] [Notifications] [Profile]
 ```
 
 **Components:**
+
 - Search bar (300px width, desktop only)
 - Notification bell with badge
 - Profile avatar with dropdown
 
 ### 7. Notification Bell
+
 **Purpose:** Display notifications with dropdown
 
 **Properties:**
+
 - Bell icon with badge (unread count)
 - Badge: Circular, pink background, white text
 - Dropdown: Recent 5 notifications
@@ -291,15 +326,18 @@ class GlassmorphicCard extends StatelessWidget {
 - Timestamp with timeago formatting
 
 **Dropdown Item:**
+
 - Width: 300px
 - Border left (3px) for unread items
 - Title, description, timestamp
 - Click to mark as read
 
 ### 8. Profile Dropdown
+
 **Purpose:** User profile menu
 
 **Properties:**
+
 - Avatar: Circular gradient background with initials
 - Size: 40x40px
 - Dropdown menu with 3 sections:
@@ -308,6 +346,7 @@ class GlassmorphicCard extends StatelessWidget {
   3. Logout (red text)
 
 **Dropdown Layout:**
+
 ```
 ┌────────────────────┐
 │ John Doe           │
@@ -321,9 +360,11 @@ class GlassmorphicCard extends StatelessWidget {
 ```
 
 ### 9. Bottom Navigation Bar (Mobile)
+
 **Purpose:** Mobile navigation with 5 items
 
 **Properties:**
+
 - Height: 70px
 - SafeArea padding
 - 5 items: Overview, Students, Coaches, Classes, Settings
@@ -331,19 +372,23 @@ class GlassmorphicCard extends StatelessWidget {
 - Unselected: Gray icon only
 
 **Animations:**
+
 - Selection: Scale 1.0 → 1.1 (icon), color fade (300ms)
 - Item layout: Vertical (icon above label)
 
 ### 10. Desktop Sidebar
+
 **Purpose:** Collapsible navigation sidebar
 
 **Properties:**
+
 - Width: 280px (expanded) ↔ 80px (collapsed)
 - Transition: 300ms ease-in-out
 - GlassmorphicCard background
 - Toggle button at top
 
 **Menu Structure:**
+
 - Overview
 - Students (collapsible)
   - Active Students
@@ -355,6 +400,7 @@ class GlassmorphicCard extends StatelessWidget {
 - Logout (at bottom, red icon)
 
 **Collapsed State:**
+
 - Icons only (no labels)
 - Nested menus hidden
 - Tooltip on hover
@@ -366,6 +412,7 @@ class GlassmorphicCard extends StatelessWidget {
 ### 1. Authentication Pages (Split-Screen)
 
 #### Desktop (≥768px)
+
 ```
 ┌─────────────────────────────────────────────┐
 │ Hero Section (60%)  │  Form Section (40%)   │
@@ -382,6 +429,7 @@ class GlassmorphicCard extends StatelessWidget {
 ```
 
 #### Mobile (<768px)
+
 ```
 ┌──────────────────┐
 │                  │
@@ -400,6 +448,7 @@ class GlassmorphicCard extends StatelessWidget {
 ### 2. Dashboard Layout
 
 #### Desktop (≥768px)
+
 ```
 ┌────────────────────────────────────────────┐
 │ [Sidebar]  │  [AppBar]                     │
@@ -418,6 +467,7 @@ class GlassmorphicCard extends StatelessWidget {
 ```
 
 #### Mobile (<768px)
+
 ```
 ┌──────────────────┐
 │ [AppBar]         │
@@ -433,6 +483,7 @@ class GlassmorphicCard extends StatelessWidget {
 ```
 
 ### 3. Responsive Breakpoints
+
 ```dart
 static const mobileBreakpoint = 768.0;   // Mobile → Tablet
 static const tabletBreakpoint = 1024.0;  // Tablet → Desktop
@@ -444,6 +495,7 @@ static const desktopBreakpoint = 1440.0; // Desktop → Wide
 ## Micro-interactions & Animations
 
 ### Button Interactions
+
 ```dart
 // Hover animation
 AnimatedContainer(
@@ -460,6 +512,7 @@ transform: Matrix4.identity()..scale(_isPressed ? 0.98 : 1.0),
 ```
 
 ### Input Field Interactions
+
 ```dart
 // Focus state
 InputDecoration(
@@ -477,6 +530,7 @@ InputDecoration(
 ```
 
 ### Page Transitions
+
 ```dart
 // Slide transition
 PageRouteBuilder(
@@ -495,6 +549,7 @@ PageRouteBuilder(
 ```
 
 ### Loading States
+
 ```dart
 // Spinner in button
 if (isLoading)
@@ -511,6 +566,7 @@ else
 ```
 
 ### Success Animations
+
 ```dart
 // Checkmark animation on successful login
 AnimatedIcon(
@@ -522,6 +578,7 @@ AnimatedIcon(
 ```
 
 ### Error Animations
+
 ```dart
 // Shake animation for validation errors
 AnimatedContainer(
@@ -536,11 +593,13 @@ AnimatedContainer(
 ## Accessibility Guidelines
 
 ### Contrast Ratios
+
 - **WCAG AA Compliance:** Minimum 4.5:1 for normal text, 3:1 for large text
 - **Dark mode:** Ensure sufficient contrast between text and background
 - **Light mode:** Test contrast with online tools (e.g., WebAIM)
 
 ### Focus Indicators
+
 ```dart
 // Keyboard navigation focus ring
 FocusableActionDetector(
@@ -558,6 +617,7 @@ FocusableActionDetector(
 ```
 
 ### Semantic Labels
+
 ```dart
 // Screen reader labels
 Semantics(
@@ -569,6 +629,7 @@ Semantics(
 ```
 
 ### Touch Targets
+
 - **Minimum size:** 44x44px (iOS) / 48x48dp (Android)
 - **Spacing:** Minimum 8px between interactive elements
 
@@ -577,6 +638,7 @@ Semantics(
 ## Form Validation & Error Handling
 
 ### Input Field States
+
 1. **Default:** Gray border, placeholder text
 2. **Focus:** Purple border, label floats up
 3. **Filled Valid:** Green subtle indicator (optional)
@@ -584,6 +646,7 @@ Semantics(
 5. **Disabled:** Gray background, reduced opacity
 
 ### Error Display Pattern
+
 ```dart
 TextFormField(
   decoration: InputDecoration(
@@ -597,6 +660,7 @@ TextFormField(
 ```
 
 ### Password Strength Indicator
+
 ```dart
 LinearProgressIndicator(
   value: _passwordStrength, // 0.0 to 1.0
@@ -616,6 +680,7 @@ LinearProgressIndicator(
 ## Social Login Buttons
 
 ### Design Specifications
+
 - **Height:** 48px
 - **Border radius:** 8px
 - **Border:** 1px solid gray (light mode), dark gray (dark mode)
@@ -624,6 +689,7 @@ LinearProgressIndicator(
 - **Hover:** Background lightens, border color intensifies
 
 ### Supported Providers
+
 1. **Google:** White background, multicolor logo
 2. **Apple:** Black background (light), white (dark), white Apple logo
 3. **GitHub:** Black background, white Octocat logo
@@ -634,6 +700,7 @@ LinearProgressIndicator(
 ## Dark/Light Mode Implementation
 
 ### Theme Toggle
+
 ```dart
 // System preference detection
 final brightness = MediaQuery.of(context).platformBrightness;
@@ -653,6 +720,7 @@ class ThemeNotifier extends ChangeNotifier {
 ```
 
 ### Adaptive Colors
+
 ```dart
 // Example: Adaptive text color
 final textColor = isDark ? Colors.white : Color(0xFF1E293B);
@@ -668,16 +736,19 @@ final backgroundColor = isDark
 ## Performance Optimizations
 
 ### Image Assets
+
 - Use SVG for icons (vector graphics)
 - Compress PNG/JPG assets
 - Lazy load images
 
 ### Animations
+
 - Use `AnimatedContainer` for simple animations
 - Use `Transform` instead of `Margin` for better performance
 - Limit simultaneous animations
 
 ### List Performance
+
 ```dart
 ListView.builder(
   itemCount: items.length,
@@ -693,6 +764,7 @@ ListView.builder(
 ## Mobile-Specific Considerations
 
 ### Safe Area Handling
+
 ```dart
 SafeArea(
   child: Scaffold(...),
@@ -700,6 +772,7 @@ SafeArea(
 ```
 
 ### Keyboard Handling
+
 ```dart
 // Auto-scroll to focused input
 Scaffold(
@@ -711,6 +784,7 @@ Scaffold(
 ```
 
 ### Touch Gestures
+
 - Swipe to navigate back
 - Pull to refresh
 - Long press for context menu
@@ -720,7 +794,9 @@ Scaffold(
 ## Figma Design Inspiration
 
 ### Reference: login-figma-inspire.jpg
+
 The design draws inspiration from modern SaaS applications with:
+
 - Split-screen layouts with hero imagery
 - Glassmorphic UI elements
 - Gradient accents and backgrounds
@@ -729,6 +805,7 @@ The design draws inspiration from modern SaaS applications with:
 - Micro-interactions on all interactive elements
 
 ### Key Takeaways Applied:
+
 1. **Visual Hierarchy:** Large headlines, clear CTAs
 2. **White Space:** Generous padding and spacing
 3. **Color Psychology:** Calming blues/purples for trust
@@ -740,6 +817,7 @@ The design draws inspiration from modern SaaS applications with:
 ## Future Enhancements
 
 ### Planned Features (Epic 5+)
+
 - [ ] Skeleton loaders for data fetching
 - [ ] Chart components with dark mode support (fl_chart)
 - [ ] Data tables with sorting/filtering
