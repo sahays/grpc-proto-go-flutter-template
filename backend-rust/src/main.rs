@@ -2,7 +2,7 @@ use redis::Client;
 use sqlx::PgPool;
 use std::sync::Arc;
 use tonic::{Request, Response, Status, transport::Server};
-use tracing::{error, info};
+use tracing::{info};
 use tower_http::trace::TraceLayer;
 
 mod cache;

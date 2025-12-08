@@ -23,23 +23,6 @@ impl SessionRepository {
         Ok(())
     }
 
-    pub async fn check_rate_limit(
-        &self,
-        ip: &str,
-        limit: usize,
-        window: Duration,
-    ) -> RedisResult<bool> {
-        let mut conn = self.client.get_multiplexed_async_connection().await?;
-        let key = format!("rate_limit:{}", ip);
-
-        let count: usize = conn.incr(&key, 1).await?;
-        if count == 1 {
-            let _: bool = conn.expire(&key, window.num_seconds()).await?;
-        }
-
-        Ok(count <= limit)
-    }
-
     pub async fn store_reset_token(
         &self,
         token: &str,

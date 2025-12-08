@@ -1,4 +1,3 @@
-use config::ConfigError;
 use thiserror::Error;
 use tonic::Status;
 
