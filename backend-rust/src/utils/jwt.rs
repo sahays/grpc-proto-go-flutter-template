@@ -1,5 +1,5 @@
 use chrono::{Duration, Utc};
-use jsonwebtoken::{decode, encode, DecodingKey, EncodingKey, Header, Validation};
+use jsonwebtoken::{DecodingKey, EncodingKey, Header, Validation, decode, encode};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -19,7 +19,10 @@ impl TokenManager {
         Self { secret }
     }
 
-    pub fn generate_access_token(&self, user_id: Uuid) -> Result<(String, usize), jsonwebtoken::errors::Error> {
+    pub fn generate_access_token(
+        &self,
+        user_id: Uuid,
+    ) -> Result<(String, usize), jsonwebtoken::errors::Error> {
         let now = Utc::now();
         let expiration = now + Duration::hours(1); // 1 hour expiration for access token
         let exp = expiration.timestamp() as usize;
@@ -40,7 +43,10 @@ impl TokenManager {
         Ok((token, exp))
     }
 
-    pub fn generate_refresh_token(&self, user_id: Uuid) -> Result<(String, usize), jsonwebtoken::errors::Error> {
+    pub fn generate_refresh_token(
+        &self,
+        user_id: Uuid,
+    ) -> Result<(String, usize), jsonwebtoken::errors::Error> {
         let now = Utc::now();
         let expiration = now + Duration::days(7); // 7 days expiration for refresh token
         let exp = expiration.timestamp() as usize;

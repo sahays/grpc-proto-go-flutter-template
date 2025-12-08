@@ -1,10 +1,12 @@
-use sqlx::postgres::{PgPoolOptions, PgPool};
+use sqlx::postgres::{PgPool, PgPoolOptions};
 use std::time::Duration;
+use tracing::info;
 
 pub async fn init_pool(database_url: &str) -> Result<PgPool, sqlx::Error> {
+    info!("Connecting to PostgreSQL at {}", database_url);
     PgPoolOptions::new()
         .max_connections(5)
-        .acquire_timeout(Duration::from_secs(3))
+        .acquire_timeout(Duration::from_secs(5))
         .connect(database_url)
         .await
 }

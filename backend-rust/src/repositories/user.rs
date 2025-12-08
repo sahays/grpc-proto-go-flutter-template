@@ -1,17 +1,25 @@
 use crate::models::user::User;
 use sqlx::{PgPool, Result};
+use std::sync::Arc;
 use uuid::Uuid;
 
+#[derive(Debug)]
 pub struct UserRepository {
-    pool: PgPool,
+    pool: Arc<PgPool>,
 }
 
 impl UserRepository {
-    pub fn new(pool: PgPool) -> Self {
+    pub fn new(pool: Arc<PgPool>) -> Self {
         Self { pool }
     }
 
-    pub async fn create(&self, email: &str, password_hash: &str, first_name: &str, last_name: &str) -> Result<User> {
+    pub async fn create(
+        &self,
+        email: &str,
+        password_hash: &str,
+        first_name: &str,
+        last_name: &str,
+    ) -> Result<User> {
         let user = sqlx::query_as::<_, User>(
             r#"
             INSERT INTO users (email, password_hash, first_name, last_name)
@@ -23,7 +31,7 @@ impl UserRepository {
         .bind(password_hash)
         .bind(first_name)
         .bind(last_name)
-        .fetch_one(&self.pool)
+        .fetch_one(&*self.pool)
         .await?;
 
         Ok(user)
@@ -36,7 +44,7 @@ impl UserRepository {
             "#,
         )
         .bind(email)
-        .fetch_optional(&self.pool)
+        .fetch_optional(&*self.pool)
         .await?;
 
         Ok(user)
@@ -49,7 +57,7 @@ impl UserRepository {
             "#,
         )
         .bind(id)
-        .fetch_optional(&self.pool)
+        .fetch_optional(&*self.pool)
         .await?;
 
         Ok(user)
@@ -63,7 +71,7 @@ impl UserRepository {
         )
         .bind(new_password_hash)
         .bind(id)
-        .execute(&self.pool)
+        .execute(&*self.pool)
         .await?;
 
         Ok(())
@@ -76,7 +84,7 @@ impl UserRepository {
             "#,
         )
         .bind(id)
-        .execute(&self.pool)
+        .execute(&*self.pool)
         .await?;
 
         Ok(())

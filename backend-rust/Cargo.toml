@@ -12,14 +12,16 @@ prost = "0.14.1"
 redis = { version = "1.0.0", features = ["tokio-comp"] }
 serde = "1.0.228"
 serde_json = "1.0.145"
-sqlx = { version = "0.8.6", features = ["runtime-tokio-rustls", "postgres", "uuid", "chrono"] }
+sqlx = { version = "0.8.6", features = ["runtime-tokio-rustls", "postgres", "uuid", "time"] }
 tokio = { version = "1.48.0", features = ["macros", "rt-multi-thread"] }
+time = { version = "0.3.36", features = ["serde", "macros"] }
 tonic = "0.14.2"
 tonic-prost = "0.14.2"
 tracing = "0.1.43"
 tracing-subscriber = "0.3.22"
+thiserror = "1.0.61"
 uuid = { version = "1.19.0", features = ["v4", "serde"] }
-validator = "0.20.0"
+validator = { version = "0.20.0", features = ["derive"] }
 
 [build-dependencies]
 prost = "0.14.1"
