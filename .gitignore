@@ -6,6 +6,25 @@
 *.test
 *.prof
 
+backend/bin/
+
+# Rust Cargo Artifacts
+/target/
+
+# IDE/Tooling
+.idea/
+.vscode/
+*.pdb
+*.rs.bk
+
+# Rust build artifacts (Standard entry)
+backend-rust/target/
+
+# Protoc files (compiler binaries and extracted directory)
+protoc-25.1-aarch64/
+protoc-25.1-linux-aarch_64.zip
+protoc-25.1/
+
 # Flutter / Dart
 .dart_tool/
 .flutter-plugins/
